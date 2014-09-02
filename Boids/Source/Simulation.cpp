@@ -30,14 +30,15 @@ Simulation::Simulation(unsigned int x, unsigned int y, unsigned int width, unsig
     m_drawMouseRadius (false),
     m_wrapEdge (false)
 {
-    m_cohesion = 100.f;
-    m_separation = 1.0f;
+    m_cohesion         = 100.f;
+    m_separation       = 1.0f;
     m_separationRadius = 25;
-    m_alignment = 100.f;
-    m_screenBound = 200.f;
-    m_maxVelocity = 400.f;
-    m_mouseStrength = 1.f;
-    m_mouseRadius   = 100;
+    m_alignment        = 100.f;
+    m_screenBound      = 200.f;
+    m_baseVelocity     = 1.f;
+    m_maxVelocity      = 400.f;
+    m_mouseStrength    = 1.f;
+    m_mouseRadius      = 100;
 }
 
 void Simulation::addBoid(Boid& boid)
@@ -71,7 +72,7 @@ void Simulation::update(float dt)
         if(m_avoidMouse)
             velocity -= applyMousePosition(boid) * m_mouseStrength;
 
-        boid.setVelocity(boid.getVelocity() + velocity);
+        boid.setVelocity((boid.getVelocity() + velocity) * m_baseVelocity);
         applyVelocityLimit(boid);
         boid.setPosition(boid.getPosition() + boid.getVelocity() * dt);
     }
@@ -163,7 +164,7 @@ void Simulation::applyWrapEdge(Boid& boid) const
 
 sf::Vector2f Simulation::applyMousePosition(Boid& boid) const
 {
-    if(m_mousePosition.x < 200)
+    if(m_mousePosition.x < m_x)
         return sf::Vector2f();
 
     if(sfx::getDistance(boid.getPosition(), m_mousePosition) < m_mouseRadius)
@@ -190,6 +191,11 @@ int Simulation::getSeparationRadius() const
 float Simulation::getAlignment() const
 {
     return m_alignment;
+}
+
+float Simulation::getBaseVelocity() const
+{
+    return m_baseVelocity;
 }
 
 float Simulation::getMaxVelocity() const
@@ -240,6 +246,11 @@ void Simulation::setSeperationRadius(int seperationRadius)
 void Simulation::setAlignment(float alignment)
 {
     m_alignment = alignment;
+}
+
+void Simulation::setBaseVelocity(float baseVelocity)
+{
+    m_baseVelocity = baseVelocity;
 }
 
 void Simulation::setMaxVelocity(float maxVelocity)

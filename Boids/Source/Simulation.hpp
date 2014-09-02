@@ -29,6 +29,7 @@ public:
     float getSeparation() const;
     int getSeparationRadius() const;
     float getAlignment() const;
+    float getBaseVelocity() const;
     float getMaxVelocity() const;
     int getBoids() const;
     float getMouseStrength() const;
@@ -40,6 +41,7 @@ public:
     void setSeparation(float separation);
     void setSeperationRadius(int seperationRadius);
     void setAlignment(float alignment);
+    void setBaseVelocity(float baseVelocity);
     void setMaxVelocity(float maxVelocity);
     void setMouseStrength(float mouseStrength);
     void setMouseRadius(int mouseRadius);
@@ -74,6 +76,7 @@ private:
     int          m_separationRadius;
     float        m_alignment;
     float        m_screenBound;
+    float        m_baseVelocity;
     float        m_maxVelocity;
     float        m_mouseStrength;
     int          m_mouseRadius;

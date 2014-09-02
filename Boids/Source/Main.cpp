@@ -87,6 +87,7 @@ void initGui(sfx::Application& application, sfx::GuiManager& guiManager, Simulat
     const std::string separation       = convert("Separation: ", simulation.getSeparation(), 3);
     const std::string separationRadius = convert("Separation radius: ", static_cast<float>(simulation.getSeparationRadius()), 0);
     const std::string alignment        = convert("Alignment: ", simulation.getAlignment(), 0);
+    const std::string baseVelocity     = convert("Base velocity: ", simulation.getBaseVelocity(), 1);
     const std::string maxVelocity      = convert("Max velocity: ", simulation.getMaxVelocity(), 0);
     const std::string boids            = convert("Boids: ", static_cast<float>(simulation.getBoids()), 0);
     const std::string followMouse      = "Follow mouse: ";
@@ -96,45 +97,42 @@ void initGui(sfx::Application& application, sfx::GuiManager& guiManager, Simulat
     const std::string mouseRadius      = convert("Mouse radius: ", static_cast<float>(simulation.getMouseRadius()), 0);
     const std::string wrapEdge         = "Wrap edge: ";
 
-    float columns[] = {10.f, 5.f, 95.f, 145.f};
-    float rows[] = {25.f, 50.f, 75.f, 100.f, 125.f, 150.f, 175.f, 200.f, 225.f, 250.f, 275.f, 
-                    300.f, 350.f, 375.f, 400.f, 450.f, 475.f, 500.f, 525.f, 560.f, 585.f, 
-                    650.f};
-
     guiManager.createPicture("background", background);
 
-    auto& labelCohesion         = guiManager.createLabel("labelCohesion",         cohesion,         font, columns[1], rows[0],  characterSize);
-    auto& labelSeparation       = guiManager.createLabel("labelSeparation",       separation,       font, columns[1], rows[2],  characterSize);
-    auto& labelSeparationRadius = guiManager.createLabel("labelSeparationRadius", separationRadius, font, columns[1], rows[4],  characterSize);
-    auto& labelAlignment        = guiManager.createLabel("labelAlignment",        alignment,        font, columns[1], rows[6],  characterSize);
-    auto& labelMaxVelocity      = guiManager.createLabel("labelMaxVelocity",      maxVelocity,      font, columns[1], rows[8],  characterSize);
-    auto& labelBoids            = guiManager.createLabel("labelBoids",            boids,            font, columns[1], rows[10], characterSize);
-    auto& labelFollowMouse      = guiManager.createLabel("labelFollowMouse",      followMouse,      font, columns[1], rows[12], characterSize);
-    auto& labelAvoidMouse       = guiManager.createLabel("labelAvoidMouse",       avoidMouse,       font, columns[1], rows[13], characterSize);
-    auto& labelDrawMouseRadius  = guiManager.createLabel("labelDrawMouseRadius",  drawMouseRadius,  font, columns[1], rows[14], characterSize);
-    auto& labelMouseStrength    = guiManager.createLabel("labelMouseStrength",    mouseStrength,    font, columns[1], rows[15], characterSize);
-    auto& labelMouseRadius      = guiManager.createLabel("labelMouseRadius",      mouseRadius,      font, columns[1], rows[17], characterSize);
-    auto& labelWrapEdge         = guiManager.createLabel("labelWrapEdge",         wrapEdge,         font, columns[1], rows[19], characterSize);
+    auto& labelCohesion         = guiManager.createLabel("labelCohesion",         cohesion,         font, 0, 0,  characterSize);
+    auto& labelSeparation       = guiManager.createLabel("labelSeparation",       separation,       font, 0, 0,  characterSize);
+    auto& labelSeparationRadius = guiManager.createLabel("labelSeparationRadius", separationRadius, font, 0, 0,  characterSize);
+    auto& labelAlignment        = guiManager.createLabel("labelAlignment",        alignment,        font, 0, 0,  characterSize);
+    auto& labelBaseVelocity     = guiManager.createLabel("labelBaseVelocity",     baseVelocity,     font, 0, 0,  characterSize);
+    auto& labelMaxVelocity      = guiManager.createLabel("labelMaxVelocity",      maxVelocity,      font, 0, 0,  characterSize);
+    auto& labelBoids            = guiManager.createLabel("labelBoids",            boids,            font, 0, 0, characterSize);
+    auto& labelFollowMouse      = guiManager.createLabel("labelFollowMouse",      followMouse,      font, 0, 0, characterSize);
+    auto& labelAvoidMouse       = guiManager.createLabel("labelAvoidMouse",       avoidMouse,       font, 0, 0, characterSize);
+    auto& labelDrawMouseRadius  = guiManager.createLabel("labelDrawMouseRadius",  drawMouseRadius,  font, 0, 0, characterSize);
+    auto& labelMouseStrength    = guiManager.createLabel("labelMouseStrength",    mouseStrength,    font, 0, 0, characterSize);
+    auto& labelMouseRadius      = guiManager.createLabel("labelMouseRadius",      mouseRadius,      font, 0, 0, characterSize);
+    auto& labelWrapEdge         = guiManager.createLabel("labelWrapEdge",         wrapEdge,         font, 0, 0, characterSize);
 
-    auto& sliderCohesion         = guiManager.createSlider("sliderCohesion",         slider, columns[0], rows[1], 1.f, 200.f, simulation.getCohesion());
-    auto& sliderSeparation       = guiManager.createSlider("sliderSeparation",       slider, columns[0], rows[3], 0.0f, 10.f, simulation.getSeparation());
-    auto& sliderSeparationRadius = guiManager.createSlider("sliderSeparationRadius", slider, columns[0], rows[5], 1, 100, static_cast<float>(simulation.getSeparationRadius()));
-    auto& sliderAlignment        = guiManager.createSlider("sliderAlignment",        slider, columns[0], rows[7], 1.f, 200.f, simulation.getAlignment());
-    auto& sliderMaxVelocity      = guiManager.createSlider("sliderMaxVelocity",      slider, columns[0], rows[9], 0.f, 1000.f, simulation.getMaxVelocity());
-    auto& sliderMouseStrength    = guiManager.createSlider("sliderMouseStrength",    slider, columns[0], rows[16], 1.f, 10.f, simulation.getMouseStrength());
-    auto& sliderMouseRadius      = guiManager.createSlider("sliderMouseRadius",      slider, columns[0], rows[18], 25.f, 500.f, static_cast<float>(simulation.getMouseRadius()));
+    auto& sliderCohesion         = guiManager.createSlider("sliderCohesion",         slider, 0, 0, 1.f, 200.f, simulation.getCohesion());
+    auto& sliderSeparation       = guiManager.createSlider("sliderSeparation",       slider, 0, 0, 0.0f, 10.f, simulation.getSeparation());
+    auto& sliderSeparationRadius = guiManager.createSlider("sliderSeparationRadius", slider, 0, 0, 1, 100, static_cast<float>(simulation.getSeparationRadius()));
+    auto& sliderAlignment        = guiManager.createSlider("sliderAlignment",        slider, 0, 0, 1.f, 200.f, simulation.getAlignment());
+    auto& sliderBaseVelocity     = guiManager.createSlider("sliderBaseVelocity",     slider, 0, 0, 1.f, 2.f, simulation.getBaseVelocity());
+    auto& sliderMaxVelocity      = guiManager.createSlider("sliderMaxVelocity",      slider, 0, 0, 0.f, 1000.f, simulation.getMaxVelocity());
+    auto& sliderMouseStrength    = guiManager.createSlider("sliderMouseStrength",    slider, 0, 0, 1.f, 10.f, simulation.getMouseStrength());
+    auto& sliderMouseRadius      = guiManager.createSlider("sliderMouseRadius",      slider, 0, 0, 25.f, 500.f, static_cast<float>(simulation.getMouseRadius()));
     
-    auto& textBoids = guiManager.createTextEditBox("textBoids", texteditBox, font, columns[1], rows[11], characterSize);
+    auto& textBoids = guiManager.createTextEditBox("textBoids", texteditBox, font, 0, 0, characterSize);
     textBoids.setText("10");
-    textBoids.setTextPosition(columns[1] + 3.f, rows[11] + characterSize / 4);
+    textBoids.setTextPosition(0 + 3.f, 0 + characterSize / 4);
 
-    auto& buttonAdd = guiManager.createButton("buttonAdd", buttonAddBoid, columns[2], rows[11]);
-    auto& buttonSub = guiManager.createButton("buttonSub", buttonSubBoid, columns[3], rows[11]);
+    auto& buttonAdd = guiManager.createButton("buttonAdd", buttonAddBoid, 0, 0);
+    auto& buttonSub = guiManager.createButton("buttonSub", buttonSubBoid, 0, 0);
 
-    auto& checkboxFollowMouse     = guiManager.createCheckBox("checkboxFollowMouse",     checkbox, columns[3], rows[12] + 3.f);
-    auto& checkboxAvoidMouse      = guiManager.createCheckBox("checkboxAvoidMouse",      checkbox, columns[3], rows[13] + 3.f);
-    auto& checkboxDrawMouseRadius = guiManager.createCheckBox("checkboxDrawMouseRadius", checkbox, columns[3], rows[14] + 3.f);
-    auto& checkboxWrapEdge        = guiManager.createCheckBox("checkboxWrapEdge",        checkbox, columns[3], rows[19] + 3.f);
+    auto& checkboxFollowMouse     = guiManager.createCheckBox("checkboxFollowMouse",     checkbox, 0, 0 + 3.f);
+    auto& checkboxAvoidMouse      = guiManager.createCheckBox("checkboxAvoidMouse",      checkbox, 0, 0 + 3.f);
+    auto& checkboxDrawMouseRadius = guiManager.createCheckBox("checkboxDrawMouseRadius", checkbox, 0, 0 + 3.f);
+    auto& checkboxWrapEdge        = guiManager.createCheckBox("checkboxWrapEdge",        checkbox, 0, 0 + 3.f);
 
     sliderCohesion.callback(1, [&sliderCohesion, &labelCohesion, &simulation]{
         labelCohesion.setText(convert("Cohesion: ", sliderCohesion.getValue(), 0));
@@ -154,6 +152,11 @@ void initGui(sfx::Application& application, sfx::GuiManager& guiManager, Simulat
     sliderAlignment.callback(1, [&sliderAlignment, &labelAlignment, &simulation]{
         labelAlignment.setText(convert("Alignment: ", sliderAlignment.getValue(), 0));
         simulation.setAlignment(sliderAlignment.getValue());
+    });
+
+    sliderBaseVelocity.callback(1, [&sliderBaseVelocity, &labelBaseVelocity, &simulation]{
+        labelBaseVelocity.setText(convert("Base velocity: ", sliderBaseVelocity.getValue(), 1));
+        simulation.setBaseVelocity(sliderBaseVelocity.getValue());
     });
 
     sliderMaxVelocity.callback(1, [&sliderMaxVelocity, &labelMaxVelocity, &simulation]{
@@ -202,6 +205,53 @@ void initGui(sfx::Application& application, sfx::GuiManager& guiManager, Simulat
     checkboxDrawMouseRadius.callback(1, [&simulation] { simulation.setDrawMouseRadius(false); });
     checkboxWrapEdge.callback(0, [&simulation] { simulation.setWrapEdge(true); });
     checkboxWrapEdge.callback(1, [&simulation] { simulation.setWrapEdge(false); });
+
+    std::vector<sfx::GuiObject*> objects;
+    objects.push_back(&labelCohesion);
+    objects.push_back(&sliderCohesion);
+    objects.push_back(&labelSeparation);
+    objects.push_back(&sliderSeparation);
+    objects.push_back(&labelSeparationRadius);
+    objects.push_back(&sliderSeparationRadius);
+    objects.push_back(&labelAlignment);
+    objects.push_back(&sliderAlignment);
+    objects.push_back(&labelBaseVelocity);
+    objects.push_back(&sliderBaseVelocity);
+    objects.push_back(&labelMaxVelocity);
+    objects.push_back(&sliderMaxVelocity);
+    objects.push_back(&labelBoids);
+
+    float leftPadding1 = 15.f;
+    float leftPadding2 = 155.f;
+
+    for(unsigned int i = 0; i < objects.size(); i++)
+        objects[i]->setPosition(leftPadding1, i * 25.f + 25.f + (i % 2 == 0 ? 3 : 0));
+
+    objects.clear();
+    
+    textBoids.setPosition(leftPadding1, labelBoids.getPosition().y + 22.f);
+    buttonAdd.setPosition(105.f, labelBoids.getPosition().y + 22.f);
+    buttonSub.setPosition(150.f, labelBoids.getPosition().y + 22.f);
+
+    labelFollowMouse.setPosition(leftPadding1, buttonSub.getPosition().y + 50.f);
+    labelAvoidMouse.setPosition(leftPadding1, labelFollowMouse.getPosition().y + 25.f);
+    labelDrawMouseRadius.setPosition(leftPadding1, labelAvoidMouse.getPosition().y + 25.f);
+    labelWrapEdge.setPosition(leftPadding1, labelDrawMouseRadius.getPosition().y + 25.f);
+
+    checkboxFollowMouse.setPosition(leftPadding2, labelFollowMouse.getPosition().y + 2.f);
+    checkboxAvoidMouse.setPosition(leftPadding2, labelAvoidMouse.getPosition().y + 2.f);
+    checkboxDrawMouseRadius.setPosition(leftPadding2, labelDrawMouseRadius.getPosition().y + 2.f);
+    checkboxWrapEdge.setPosition(leftPadding2, labelWrapEdge.getPosition().y + 2.f);
+
+    objects.push_back(&labelMouseStrength);
+    objects.push_back(&sliderMouseStrength);
+    objects.push_back(&labelMouseRadius);
+    objects.push_back(&sliderMouseRadius);
+
+    for(unsigned int i = 0; i < objects.size(); i++)
+        objects[i]->setPosition(leftPadding1, i * 25.f + checkboxWrapEdge.getPosition().y + 40.f);
+    
+
 }
 
 std::string convert(const std::string& prefix, float value, int precision)
